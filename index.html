@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CleanPhoto - Smart Photo Cleaner, free up space on your phone">
+    <title>CleanPhoto - Smart Photo Cleaning Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 70px;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--white) 100%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 580px;
+            background: linear-gradient(145deg, #1f2937, #374151);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            border-radius: 32px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 15px 15px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .phone-content {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-radius: 8px;
+        }
+
+        .storage-bar {
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: auto;
+        }
+
+        .storage-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .storage-progress {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .storage-fill {
+            width: 85%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        .storage-text {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Features */
+        .features {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+            border-radius: 20px;
+            background: var(--bg-light);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Screenshots */
+        .screenshots {
+            padding: 100px 0;
+            background: var(--bg-light);
+        }
+
+        .screenshots-scroll {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+        }
+
+        .screenshot {
+            flex: 0 0 auto;
+            width: 180px;
+            aspect-ratio: 9/19.5;
+            background: #f3f4f6;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+
+        /* Download */
+        .download {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .download-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .download p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 25px;
+            background: var(--text-dark);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .store-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .store-btn .icon {
+            font-size: 1.8rem;
+        }
+
+        .store-btn .text {
+            text-align: left;
+        }
+
+        .store-btn .text small {
+            display: block;
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .store-btn .text span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <div class="logo-icon">📷</div>
+                    CleanPhoto
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#download">Download</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Clean Up<br><span>Free Up Space</span></h1>
+                    <p>Smart detection of similar photos, screenshots, and blurry images. Quickly free up storage space and keep your phone running smoothly.</p>
+                    <div class="hero-buttons">
+                        <a href="#download" class="btn btn-primary">
+                            <span>Download Now</span>
+                        </a>
+                        <a href="#features" class="btn btn-secondary">
+                            <span>Learn More</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="phone-header">
+                                CleanPhoto<br>
+                                <small>5.2 GB Cleaned</small>
+                            </div>
+                            <div class="phone-content">
+                                <div class="photo-grid">
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #fca5a5, #fecaca);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #86efac, #bbf7d0);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #93c5fd, #bfdbfe);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #fcd34d, #fde68a);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #c4b5fd, #ddd6fe);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #67e8f9, #a5f3fc);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #f9a8d4, #fbcfe8);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #a3e635, #d9f99d);"></div>
+                                    <div class="photo-item" style="background: linear-gradient(135deg, #f97316, #fed7aa);"></div>
+                                </div>
+                                <div class="storage-bar">
+                                    <div class="storage-label">Storage Analysis</div>
+                                    <div class="storage-progress">
+                                        <div class="storage-fill"></div>
+                                    </div>
+                                    <div class="storage-text">12.5 GB Can Be Cleared · 85% Used</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Features</h2>
+                <p>Smart cleaning made simple</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Similar Photo Detection</h3>
+                    <p>Smartly identify burst photos and similar images. Keep the best version and delete duplicates with one tap.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Screenshot Recognition</h3>
+                    <p>Automatically organize screenshots, categorize by time and type, and clear useless ones to free up space.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Storage Analysis</h3>
+                    <p>Visualize photo storage usage distribution and clearly understand your storage status.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy Protection</h3>
+                    <p>All analysis is done locally. Your photos never leave your device. Safe and secure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Scanning</h3>
+                    <p>Using advanced algorithms to quickly scan your entire library with efficiency and quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-title">
+                <h2>App Screenshots</h2>
+                <p>Clean interface, easy to use</p>
+            </div>
+            <div class="screenshots-scroll">
+                <div class="screenshot"><img src="home.png"></div>
+                <div class="screenshot"><img src="similar.png"></div>
+                <div class="screenshot"><img src="tag.png"></div>
+                <div class="screenshot"><img src="pre_delete.png"></div>
+                <div class="screenshot"><img src="free.png"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-content">
+                <h2>Start Cleaning Your Photos</h2>
+                <p>Download CleanPhoto now and give your phone a fresh start. Available on iOS and Android.</p>
+                <div class="download-buttons">
+                    <a href="https://apps.apple.com/us/app/cleanphoto/id6758242073" class="store-btn">
+                        <span class="icon">🍎</span>
+                        <span class="text">
+                            <small>Download on the</small>
+                            <span>Apple Store</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="privacy">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">📷</div>
+                        CleanPhoto
+                    </a>
+                    <p>Smart photo cleaning assistant. Making phone storage management simple and efficient.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#screenshots">Screenshots</a></li>
+                        <li><a href="#download">Download</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://docs.google.com/document/d/1Mc6BI8FJEBWQQ7iSKbCANF4cNGj0DqzhK9seTt8UaY0/edit?usp=sharing">Privacy Policy</a></li>
+<!--                        <li><a href="#">Terms of Service</a></li>-->
+                        <li><a href="mailto:nhsoft.lsd@gmail.com">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CleanPhoto. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
