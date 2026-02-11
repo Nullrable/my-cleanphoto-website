@@ -84,6 +84,12 @@
             height: 72px;
         }
 
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
         .logo {
             display: flex;
             align-items: center;
@@ -114,7 +120,8 @@
 
         .nav-links {
             display: flex;
-            gap: 40px;
+            align-items: center;
+            gap: 32px;
             list-style: none;
         }
 
@@ -130,6 +137,94 @@
             color: var(--primary);
         }
 
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--bg-light);
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .language-btn:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .language-btn svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-light);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            min-width: 180px;
+            max-height: 320px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+
+        .language-selector:hover .language-dropdown,
+        .language-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .language-option:hover {
+            background: var(--bg-light);
+        }
+
+        .language-option.active {
+            background: var(--bg-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .language-option .flag {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            background: #f0f0f0;
+        }
+
         .nav-cta {
             background: var(--text-dark);
             color: white !important;
@@ -142,6 +237,12 @@
         .nav-cta:hover {
             background: var(--primary) !important;
             transform: translateY(-1px);
+        }
+
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
         }
 
         /* Hero Section */
@@ -873,19 +974,46 @@
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">
-                    <div class="logo-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    CleanPhoto
-                </a>
+                <div class="nav-left">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        CleanPhoto
+                    </a>
+                    <ul class="nav-links">
+                        <li><a href="#features" data-i18n="nav_features">Features</a></li>
+                        <li><a href="#screenshots" data-i18n="nav_screenshots">Screenshots</a></li>
+                        <li><a href="#how-it-works" data-i18n="nav_how_it_works">How It Works</a></li>
+                    </ul>
+                </div>
                 <ul class="nav-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#screenshots">Screenshots</a></li>
-                    <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="#download" class="nav-cta">Download</a></li>
+                    <li class="language-selector">
+                        <button class="language-btn" id="languageBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                            <span id="currentLang">EN</span>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" data-lang="en"><span class="flag">EN</span> English</div>
+                            <div class="language-option" data-lang="zh-Hans"><span class="flag">简</span> 简体中文</div>
+                            <div class="language-option" data-lang="zh-Hant"><span class="flag">繁</span> 繁體中文</div>
+                            <div class="language-option" data-lang="ja"><span class="flag">日</span> 日本語</div>
+                            <div class="language-option" data-lang="ko"><span class="flag">한</span> 한국어</div>
+                            <div class="language-option" data-lang="vi"><span class="flag">VN</span> Tiếng Việt</div>
+                            <div class="language-option" data-lang="id"><span class="flag">ID</span> Bahasa Indonesia</div>
+                            <div class="language-option" data-lang="ar"><span class="flag">ع</span> العربية</div>
+                            <div class="language-option" data-lang="fr"><span class="flag">FR</span> Français</div>
+                            <div class="language-option" data-lang="de"><span class="flag">DE</span> Deutsch</div>
+                            <div class="language-option" data-lang="es"><span class="flag">ES</span> Español</div>
+                            <div class="language-option" data-lang="pt"><span class="flag">PT</span> Português</div>
+                            <div class="language-option" data-lang="it"><span class="flag">IT</span> Italiano</div>
+                        </div>
+                    </li>
+                    <li><a href="#download" class="nav-cta" data-i18n="nav_download">Download</a></li>
                 </ul>
             </nav>
         </div>
@@ -896,17 +1024,17 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>Free Up Space.<br><span>Keep Memories.</span></h1>
-                    <p>Smart AI-powered photo cleaner that finds similar photos, screenshots, and blurry images. Reclaim gigabytes of storage instantly.</p>
+                    <h1 data-i18n="hero_title">Free Up Space.<br><span data-i18n="hero_subtitle">Keep Memories.</span></h1>
+                    <p data-i18n="hero_desc">Smart AI-powered photo cleaner that finds similar photos, screenshots, and blurry images. Reclaim gigabytes of storage instantly.</p>
                     <div class="hero-buttons">
                         <a href="#download" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                             </svg>
-                            <span>Download for iOS</span>
+                            <span data-i18n="btn_download_ios">Download for iOS</span>
                         </a>
                         <a href="#features" class="btn btn-secondary">
-                            <span>Learn More</span>
+                            <span data-i18n="btn_learn_more">Learn More</span>
                         </a>
                     </div>
                 </div>
@@ -918,7 +1046,7 @@
                                     <path d="M20 6L9 17l-5-5"/>
                                 </svg>
                             </div>
-                            <span>2.4 GB Cleaned!</span>
+                            <span data-i18n="badge_cleaned">2.4 GB Cleaned!</span>
                         </div>
                         <div class="floating-badge floating-badge-2">
                             <div class="icon">
@@ -926,28 +1054,28 @@
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 </svg>
                             </div>
-                            <span>100% Private</span>
+                            <span data-i18n="badge_private">100% Private</span>
                         </div>
                         <div class="phone-mockup">
                             <div class="phone-screen">
                                 <div class="phone-header">
                                     <h3>CleanPhoto</h3>
-                                    <span>Analysis Complete</span>
+                                    <span data-i18n="phone_analysis_complete">Analysis Complete</span>
                                 </div>
                                 <div class="phone-content">
                                     <div class="clean-summary">
-                                        <h4>Ready to Clean</h4>
+                                        <h4 data-i18n="phone_ready_to_clean">Ready to Clean</h4>
                                         <div class="clean-number">5.2 GB</div>
                                     </div>
                                     <div class="storage-bar">
                                         <div class="storage-label">
-                                            <span>Storage Used</span>
+                                            <span data-i18n="phone_storage_used">Storage Used</span>
                                             <span>72%</span>
                                         </div>
                                         <div class="storage-progress">
                                             <div class="storage-fill"></div>
                                         </div>
-                                        <div class="storage-text">12.5 GB can be cleared</div>
+                                        <div class="storage-text" data-i18n="phone_can_be_cleared">12.5 GB can be cleared</div>
                                     </div>
                                 </div>
                             </div>
@@ -962,8 +1090,8 @@
     <section class="features" id="features">
         <div class="container">
             <div class="section-header">
-                <h2>Powerful Cleaning Features</h2>
-                <p>Everything you need to keep your photo library organized and free up valuable storage space.</p>
+                <h2 data-i18n="features_title">Powerful Cleaning Features</h2>
+                <p data-i18n="features_subtitle">Everything you need to keep your photo library organized and free up valuable storage space.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -972,8 +1100,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h3>Similar Photo Detection</h3>
-                    <p>Automatically identify burst photos, duplicates, and similar shots. Keep the best one with a single tap.</p>
+                    <h3 data-i18n="feature_1_title">Similar Photo Detection</h3>
+                    <p data-i18n="feature_1_desc">Automatically identify burst photos, duplicates, and similar shots. Keep the best one with a single tap.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -981,8 +1109,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h3>Screenshot Organizer</h3>
-                    <p>Find and categorize all your screenshots automatically. Remove old or unwanted ones to free up space.</p>
+                    <h3 data-i18n="feature_2_title">Screenshot Organizer</h3>
+                    <p data-i18n="feature_2_desc">Find and categorize all your screenshots automatically. Remove old or unwanted ones to free up space.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -990,8 +1118,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
                     </div>
-                    <h3>Storage Analytics</h3>
-                    <p>Visual charts show exactly what's taking up space. Track your photo library growth over time.</p>
+                    <h3 data-i18n="feature_3_title">Storage Analytics</h3>
+                    <p data-i18n="feature_3_desc">Visual charts show exactly what's taking up space. Track your photo library growth over time.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -999,8 +1127,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                     </div>
-                    <h3>100% Private</h3>
-                    <p>All analysis happens on your device. Your photos never leave your phone. Complete privacy guaranteed.</p>
+                    <h3 data-i18n="feature_4_title">100% Private</h3>
+                    <p data-i18n="feature_4_desc">All analysis happens on your device. Your photos never leave your phone. Complete privacy guaranteed.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -1008,8 +1136,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    <h3>Lightning Fast</h3>
-                    <p>Advanced algorithms scan your entire photo library in seconds. No waiting, no slowing down.</p>
+                    <h3 data-i18n="feature_5_title">Lightning Fast</h3>
+                    <p data-i18n="feature_5_desc">Advanced algorithms scan your entire photo library in seconds. No waiting, no slowing down.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -1017,8 +1145,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h3>Smart Suggestions</h3>
-                    <p>AI-powered recommendations help you identify blurry photos, bad screenshots, and unwanted images.</p>
+                    <h3 data-i18n="feature_6_title">Smart Suggestions</h3>
+                    <p data-i18n="feature_6_desc">AI-powered recommendations help you identify blurry photos, bad screenshots, and unwanted images.</p>
                 </div>
             </div>
         </div>
@@ -1029,8 +1157,8 @@
         <div class="screenshots-bg"></div>
         <div class="container">
             <div class="section-header">
-                <h2>See CleanPhoto in Action</h2>
-                <p>Beautiful, intuitive interface that makes photo cleaning a breeze.</p>
+                <h2 data-i18n="screenshots_title">See CleanPhoto in Action</h2>
+                <p data-i18n="screenshots_subtitle">Beautiful, intuitive interface that makes photo cleaning a breeze.</p>
             </div>
             <div class="screenshots-grid">
                 <div class="screenshot-card">
@@ -1061,24 +1189,24 @@
     <section class="how-it-works" id="how-it-works">
         <div class="container">
             <div class="section-header">
-                <h2>How It Works</h2>
-                <p>Three simple steps to free up storage space.</p>
+                <h2 data-i18n="how_title">How It Works</h2>
+                <p data-i18n="how_subtitle">Three simple steps to free up storage space.</p>
             </div>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Open & Scan</h3>
-                    <p>Launch CleanPhoto and let it analyze your photo library in seconds.</p>
+                    <h3 data-i18n="step_1_title">Open & Scan</h3>
+                    <p data-i18n="step_1_desc">Launch CleanPhoto and let it analyze your photo library in seconds.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Review & Select</h3>
-                    <p>Browse smart suggestions for duplicates, screenshots, and unwanted photos.</p>
+                    <h3 data-i18n="step_2_title">Review & Select</h3>
+                    <p data-i18n="step_2_desc">Browse smart suggestions for duplicates, screenshots, and unwanted photos.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Clean & Save</h3>
-                    <p>Delete with one tap and watch your available storage grow.</p>
+                    <h3 data-i18n="step_3_title">Clean & Save</h3>
+                    <p data-i18n="step_3_desc">Delete with one tap and watch your available storage grow.</p>
                 </div>
             </div>
         </div>
@@ -1088,16 +1216,16 @@
     <section class="download" id="download">
         <div class="container">
             <div class="download-content">
-                <h2>Ready to Clean Up?</h2>
-                <p>Download CleanPhoto now and start reclaiming your storage space. Free to try, powerful enough to keep.</p>
+                <h2 data-i18n="download_title">Ready to Clean Up?</h2>
+                <p data-i18n="download_desc">Download CleanPhoto now and start reclaiming your storage space. Free to try, powerful enough to keep.</p>
                 <div class="download-buttons">
                     <a href="https://apps.apple.com/us/app/cleanphoto/id6758242073" class="store-btn" target="_blank" rel="noopener">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                         </svg>
                         <span class="text">
-                            <small>Download on the</small>
-                            <span>App Store</span>
+                            <small data-i18n="app_store_small">Download on the</small>
+                            <span data-i18n="app_store">App Store</span>
                         </span>
                     </a>
                 </div>
@@ -1118,21 +1246,21 @@
                         </div>
                         CleanPhoto
                     </a>
-                    <p>Smart AI-powered photo cleaning assistant. Keep what matters, free what doesn't.</p>
+                    <p data-i18n="footer_desc">Smart AI-powered photo cleaning assistant. Keep what matters, free what doesn't.</p>
                 </div>
                 <div class="footer-links">
-                    <h4>Product</h4>
+                    <h4 data-i18n="footer_product">Product</h4>
                     <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#screenshots">Screenshots</a></li>
-                        <li><a href="#download">Download</a></li>
+                        <li><a href="#features" data-i18n="nav_features">Features</a></li>
+                        <li><a href="#screenshots" data-i18n="nav_screenshots">Screenshots</a></li>
+                        <li><a href="#download" data-i18n="nav_download">Download</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
-                    <h4>Support</h4>
+                    <h4 data-i18n="footer_support">Support</h4>
                     <ul>
-                        <li><a href="https://docs.google.com/document/d/1R4ZKff-zySRzuw4l56_n2h489QxF_Vhd55WFM3svVEY/edit?usp=sharing" target="_blank" rel="noopener">Privacy Policy</a></li>
-                        <li><a href="mailto:nhsoft.lsd@gmail.com">Contact Us</a></li>
+                        <li><a href="https://docs.google.com/document/d/1R4ZKff-zySRzuw4l56_n2h489QxF_Vhd55WFM3svVEY/edit?usp=sharing" target="_blank" rel="noopener" data-i18n="footer_privacy">Privacy Policy</a></li>
+                        <li><a href="mailto:nhsoft.lsd@gmail.com" data-i18n="footer_contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -1143,6 +1271,776 @@
     </footer>
 
     <script>
+        // Translation data
+        const translations = {
+            en: {
+                nav_features: "Features",
+                nav_screenshots: "Screenshots",
+                nav_how_it_works: "How It Works",
+                nav_download: "Download",
+                hero_title: "Free Up Space.<br>",
+                hero_subtitle: "Keep Memories.",
+                hero_desc: "Smart AI-powered photo cleaner that finds similar photos, screenshots, and blurry images. Reclaim gigabytes of storage instantly.",
+                btn_download_ios: "Download for iOS",
+                btn_learn_more: "Learn More",
+                badge_cleaned: "2.4 GB Cleaned!",
+                badge_private: "100% Private",
+                phone_analysis_complete: "Analysis Complete",
+                phone_ready_to_clean: "Ready to Clean",
+                phone_storage_used: "Storage Used",
+                phone_can_be_cleared: "12.5 GB can be cleared",
+                features_title: "Powerful Cleaning Features",
+                features_subtitle: "Everything you need to keep your photo library organized and free up valuable storage space.",
+                feature_1_title: "Similar Photo Detection",
+                feature_1_desc: "Automatically identify burst photos, duplicates, and similar shots. Keep the best one with a single tap.",
+                feature_2_title: "Screenshot Organizer",
+                feature_2_desc: "Find and categorize all your screenshots automatically. Remove old or unwanted ones to free up space.",
+                feature_3_title: "Storage Analytics",
+                feature_3_desc: "Visual charts show exactly what's taking up space. Track your photo library growth over time.",
+                feature_4_title: "100% Private",
+                feature_4_desc: "All analysis happens on your device. Your photos never leave your phone. Complete privacy guaranteed.",
+                feature_5_title: "Lightning Fast",
+                feature_5_desc: "Advanced algorithms scan your entire photo library in seconds. No waiting, no slowing down.",
+                feature_6_title: "Smart Suggestions",
+                feature_6_desc: "AI-powered recommendations help you identify blurry photos, bad screenshots, and unwanted images.",
+                screenshots_title: "See CleanPhoto in Action",
+                screenshots_subtitle: "Beautiful, intuitive interface that makes photo cleaning a breeze.",
+                how_title: "How It Works",
+                how_subtitle: "Three simple steps to free up storage space.",
+                step_1_title: "Open & Scan",
+                step_1_desc: "Launch CleanPhoto and let it analyze your photo library in seconds.",
+                step_2_title: "Review & Select",
+                step_2_desc: "Browse smart suggestions for duplicates, screenshots, and unwanted photos.",
+                step_3_title: "Clean & Save",
+                step_3_desc: "Delete with one tap and watch your available storage grow.",
+                download_title: "Ready to Clean Up?",
+                download_desc: "Download CleanPhoto now and start reclaiming your storage space. Free to try, powerful enough to keep.",
+                app_store_small: "Download on the",
+                app_store: "App Store",
+                footer_desc: "Smart AI-powered photo cleaning assistant. Keep what matters, free what doesn't.",
+                footer_product: "Product",
+                footer_support: "Support",
+                footer_privacy: "Privacy Policy",
+                footer_contact: "Contact Us"
+            },
+            "zh-Hans": {
+                nav_features: "功能特点",
+                nav_screenshots: "截图展示",
+                nav_how_it_works: "使用教程",
+                nav_download: "下载",
+                hero_title: "释放空间.<br>",
+                hero_subtitle: "保留回忆.",
+                hero_desc: "智能 AI 照片清理工具，自动识别相似照片、截图和模糊照片。立即释放数 GB 存储空间。",
+                btn_download_ios: "下载 iOS 版本",
+                btn_learn_more: "了解更多",
+                badge_cleaned: "已清理 2.4 GB!",
+                badge_private: "100% 私密",
+                phone_analysis_complete: "分析完成",
+                phone_ready_to_clean: "准备清理",
+                phone_storage_used: "已用存储",
+                phone_can_be_cleared: "可清理 12.5 GB",
+                features_title: "强大的清理功能",
+                features_subtitle: "整理照片库、释放宝贵存储空间所需的一切。",
+                feature_1_title: "相似照片检测",
+                feature_1_desc: "自动识别连拍照片、重复照片和相似照片。一键保留最佳照片。",
+                feature_2_title: "截图整理",
+                feature_2_desc: "自动查找和分类所有截图。删除不需要的截图以释放空间。",
+                feature_3_title: "存储分析",
+                feature_3_desc: "可视化图表清晰显示占用空间的内容。追踪照片库增长情况。",
+                feature_4_title: "100% 私密",
+                feature_4_desc: "所有分析均在本地进行。您的照片永远不会离开手机。",
+                feature_5_title: "闪电般快速",
+                feature_5_desc: "先进算法在几秒内扫描整个照片库。无需等待。",
+                feature_6_title: "智能建议",
+                feature_6_desc: "AI 驱动的推荐帮助您识别模糊照片、废弃截图和不需要的图片。",
+                screenshots_title: "CleanPhoto 实际演示",
+                screenshots_subtitle: "美观直观的界面，让照片清理变得轻松简单。",
+                how_title: "如何使用",
+                how_subtitle: "三个简单步骤释放存储空间。",
+                step_1_title: "打开并扫描",
+                step_1_desc: "启动 CleanPhoto，让它在几秒钟内分析您的照片库。",
+                step_2_title: "查看并选择",
+                step_2_desc: "浏览智能建议，找出重复照片、截图和不需要的照片。",
+                step_3_title: "清理并节省",
+                step_3_desc: "一键删除，看着可用存储空间增长。",
+                download_title: "准备好清理了吗？",
+                download_desc: "立即下载 CleanPhoto，开始找回您的存储空间。免费试用，强大到足以保留。",
+                app_store_small: "下载自",
+                app_store: "App Store",
+                footer_desc: "智能 AI 照片清理助手。保留重要的，清理无用的。",
+                footer_product: "产品",
+                footer_support: "支持",
+                footer_privacy: "隐私政策",
+                footer_contact: "联系我们"
+            },
+            "zh-Hant": {
+                nav_features: "功能特點",
+                nav_screenshots: "截圖展示",
+                nav_how_it_works: "使用教程",
+                nav_download: "下載",
+                hero_title: "釋放空間.<br>",
+                hero_subtitle: "保留回憶.",
+                hero_desc: "智能 AI 照片清理工具，自動識別相似照片、截圖和模糊照片。立即釋放數 GB 存儲空間。",
+                btn_download_ios: "下載 iOS 版本",
+                btn_learn_more: "了解更多",
+                badge_cleaned: "已清理 2.4 GB!",
+                badge_private: "100% 私密",
+                phone_analysis_complete: "分析完成",
+                phone_ready_to_clean: "準備清理",
+                phone_storage_used: "已用存儲",
+                phone_can_be_cleared: "可清理 12.5 GB",
+                features_title: "強大的清理功能",
+                features_subtitle: "整理照片庫、釋放寶貴存儲空間所需的一切。",
+                feature_1_title: "相似照片檢測",
+                feature_1_desc: "自動識別連拍照片、重複照片和相似照片。一鍵保留最佳照片。",
+                feature_2_title: "截圖整理",
+                feature_2_desc: "自動查找和分類所有截圖。刪除不需要的截圖以釋放空間。",
+                feature_3_title: "存儲分析",
+                feature_3_desc: "可視化圖表清晰顯示佔用空間的內容。追蹤照片庫增長情況。",
+                feature_4_title: "100% 私密",
+                feature_4_desc: "所有分析均在本地進行。您的照片永遠不會離開手機。",
+                feature_5_title: "閃電般快速",
+                feature_5_desc: "先進算法在幾秒鐘內掃描整個照片庫。無需等待。",
+                feature_6_title: "智能建議",
+                feature_6_desc: "AI 驅動的推薦幫助您識別模糊照片、廢棄截圖和不需要的圖片。",
+                screenshots_title: "CleanPhoto 實際演示",
+                screenshots_subtitle: "美觀直觀的界面，讓照片清理變得輕鬆簡單。",
+                how_title: "如何使用",
+                how_subtitle: "三個簡單步驟釋放存儲空間。",
+                step_1_title: "打開並掃描",
+                step_1_desc: "啟動 CleanPhoto，讓它在幾秒鐘內分析您的照片庫。",
+                step_2_title: "查看並選擇",
+                step_2_desc: "瀏覽智能建議，找出重複照片、截圖和不需要的照片。",
+                step_3_title: "清理並節省",
+                step_3_desc: "一鍵刪除，看著可用存儲空間增長。",
+                download_title: "準備好清理了嗎？",
+                download_desc: "立即下載 CleanPhoto，開始找回您的存儲空間。免費試用，強大到足以保留。",
+                app_store_small: "下載自",
+                app_store: "App Store",
+                footer_desc: "智能 AI 照片清理助手。保留重要的，清理無用的。",
+                footer_product: "產品",
+                footer_support: "支持",
+                footer_privacy: "隱私政策",
+                footer_contact: "聯繫我們"
+            },
+            ja: {
+                nav_features: "機能",
+                nav_screenshots: "スクリーンショット",
+                nav_how_it_works: "使い方",
+                nav_download: "ダウンロード",
+                hero_title: "スペースを確保.<br>",
+                hero_subtitle: "思い出はそのまま.",
+                hero_desc: "AI搭載のスマート写真クリーンアップ。重複写真、スクリーンショット、ぼかし写真を自動検出。瞬時にストレージを解放。",
+                btn_download_ios: "iOS版ダウンロード",
+                btn_learn_more: "詳細を見る",
+                badge_cleaned: "2.4 GBクリーンアップ!",
+                badge_private: "100% プライベート",
+                phone_analysis_complete: "分析完了",
+                phone_ready_to_clean: "クリーンアップ準備完了",
+                phone_storage_used: "使用ストレージ",
+                phone_can_be_cleared: "12.5 GB削除可能",
+                features_title: "強力なクリーンアップ機能",
+                features_subtitle: "写真ライブラリを整理し、貴重なストレージを確保するために必要なすべて。",
+                feature_1_title: "類似写真検出",
+                feature_1_desc: "バースト写真、重複、類似写真を自動識別。一タップで最適なものを残せる。",
+                feature_2_title: "スクリーンショット整理",
+                feature_2_desc: "すべてのスクリーンショットを自動検索・分類。古いの不要なものを削除してスペース確保。",
+                feature_3_title: "ストレージ分析",
+                feature_3_desc: "可視化チャートがストレージ使用量を明確に表示。写真ライブラリの成長を追跡。",
+                feature_4_title: "100% プライベート",
+                feature_4_desc: "すべての分析はデバイス上で完結。写真がデバイスから離れることはありません。",
+                feature_5_title: "超高速",
+                feature_5_desc: "高度なアルゴリズムが数秒で写真ライブラリをスキャン。待ち時間なし。",
+                feature_6_title: "スマート提案",
+                feature_6_desc: "AI主導の提案でぼかし写真、古いスクリーンショット、不要な画像を特定。",
+                screenshots_title: "CleanPhoto を体験",
+                screenshots_subtitle: "写真クリーンアップを楽にする、美しく直感的なインターフェース。",
+                how_title: "使い方",
+                how_subtitle: "ストレージを解放する3つの簡単なステップ。",
+                step_1_title: "開いてスキャン",
+                step_1_desc: "CleanPhotoを起動。数秒で写真ライブラリを分析。",
+                step_2_title: "確認して選択",
+                step_2_desc: "重複、スクリーンショット、不要な写真のスマート提案を参照。",
+                step_3_title: "クリーンアップして節約",
+                step_3_desc: "一タップで削除。利用可能なストレージの増加を確認。",
+                download_title: "クリーンアップの準備はできましたか？",
+                download_desc: "CleanPhotoを今すぐダウンロード。ストレージを取り戻そう。無料試用で、高機能。",
+                app_store_small: "ダウンロードは",
+                app_store: "App Store",
+                footer_desc: "AI搭載スマート写真クリーンアップアシスタント。大切なものは残して、不要なものを削除。",
+                footer_product: "製品",
+                footer_support: "サポート",
+                footer_privacy: "プライバシーポリシー",
+                footer_contact: "お問い合わせ"
+            },
+            ko: {
+                nav_features: "기능",
+                nav_screenshots: "스크린샷",
+                nav_how_it_works: "사용 방법",
+                nav_download: "다운로드",
+                hero_title: "공간 확보.<br>",
+                hero_subtitle: "추억은 보존.",
+                hero_desc: "AI 기반 스마트 사진 정리 도구. 유사 사진, 스크린샷, 흐린 사진을 자동으로 발견. 즉시 저장 공간 확보.",
+                btn_download_ios: "iOS 다운로드",
+                btn_learn_more: "더 알아보기",
+                badge_cleaned: "2.4 GB 정리됨!",
+                badge_private: "100% 비공개",
+                phone_analysis_complete: "분석 완료",
+                phone_ready_to_clean: "정리 준비 완료",
+                phone_storage_used: "사용 저장 공간",
+                phone_can_be_cleared: "12.5 GB 정리 가능",
+                features_title: "강력한 정리 기능",
+                features_subtitle: "사진 라이브러리를 정리하고 소중한 저장 공간을 확보하는 데 필요한 모든 것.",
+                feature_1_title: "유사 사진 감지",
+                feature_1_desc: "연사 사진, 중복, 유사 사진을 자동으로 식별. 탭 하나로 최적의 사진 유지.",
+                feature_2_title: "스크린샷 정리",
+                feature_2_desc: "모든 스크린샷을 자동으로 검색하고 분류. 오래된 것 삭제하여 공간 확보.",
+                feature_3_title: "저장 공간 분석",
+                feature_3_desc: "시각적 차트가 정확히 무엇이 공간을 차지하는지 보여줌. 사진 라이브러리 성장 추적.",
+                feature_4_title: "100% 비공개",
+                feature_4_desc: "모든 분석이 기기에서 이루어짐. 사진이 기기를 절대 떠나지 않음.",
+                feature_5_title: "闪电般快速",
+                feature_5_desc: "고급 알고리즘이 몇 초 만에 전체 사진 라이브러리 스캔. 대기 시간 없음.",
+                feature_6_title: "스마트 제안",
+                feature_6_desc: "AI 기반 추천으로 흐린 사진, 오래된 스크린샷, 원치 않는 이미지 식별.",
+                screenshots_title: "CleanPhoto 실습",
+                screenshots_subtitle: "사진 정리를楽にする 아름다운 직관적인 인터페이스.",
+                how_title: "사용 방법",
+                how_subtitle: "저장 공간을 확보하는 3가지 간단한 단계.",
+                step_1_title: "열고 스캔",
+                step_1_desc: "CleanPhoto를 запу우고 몇 초 만에 사진 라이브러리 분석.",
+                step_2_title: "검토 및 선택",
+                step_2_desc: "중복, 스크린샷, 원치 않는 사진에 대한 스마트 제안 참조.",
+                step_3_title: "정리 및 절약",
+                step_3_desc: "탭 하나로 삭제하고 사용 가능한 저장 공간 증가 확인.",
+                download_title: "정리할 준비가 되셨나요?",
+                download_desc: "CleanPhoto를 지금 다운로드하고 저장 공간을 되찾으세요. 무료로 시도할 수 있고, 충분히 강력합니다.",
+                app_store_small: "다운로드",
+                app_store: "App Store",
+                footer_desc: "AI 기반 스마트 사진 정리 어시스턴트. 중요한 것은 유지하고, 불필요한 것은 삭제.",
+                footer_product: "제품",
+                footer_support: "지원",
+                footer_privacy: "개인정보 처리방침",
+                footer_contact: "문의하기"
+            },
+            vi: {
+                nav_features: "Tính năng",
+                nav_screenshots: "Ảnh chụp màn hình",
+                nav_how_it_works: "Cách hoạt động",
+                nav_download: "Tải về",
+                hero_title: "Giải phóng dung lượng.<br>",
+                hero_subtitle: "Giữ lại kỷ niệm.",
+                hero_desc: "Trợ lý ảnh thông minh AI tự động phát hiện ảnh trùng lặp, ảnh chụp màn hình và ảnh mờ. Giải phóng vài gigabyte dung lượng ngay lập tức.",
+                btn_download_ios: "Tải về cho iOS",
+                btn_learn_more: "Tìm hiểu thêm",
+                badge_cleaned: "Đã dọn dẹp 2.4 GB!",
+                badge_private: "100% Riêng tư",
+                phone_analysis_complete: "Phân tích hoàn tất",
+                phone_ready_to_clean: "Sẵn sàng dọn dẹp",
+                phone_storage_used: "Dung lượng đã dùng",
+                phone_can_be_cleared: "12.5 GB có thể xóa",
+                features_title: "Tính năng dọn dẹp mạnh mẽ",
+                features_subtitle: "Mọi thứ bạn cần để giữ cho thư viện ảnh gọn gàng và giải phóng dung lượng.",
+                feature_1_title: "Phát hiện ảnh trùng lặp",
+                feature_1_desc: "Tự động nhận diện ảnh chụp liên tục, trùng lặp và tương tự. Giữ lại ảnh đẹp nhất bằng một chạm.",
+                feature_2_title: "Tổ chức ảnh chụp màn hình",
+                feature_2_desc: "Tự động tìm và phân loại tất cả ảnh chụp màn hình. Xóa những ảnh cũ không cần thiết.",
+                feature_3_title: "Phân tích dung lượng",
+                feature_3_desc: "Biểu đồ trực quan cho thấy chính xác dung lượng đang sử dụng. Theo dõi sự phát triển của thư viện ảnh.",
+                feature_4_title: "100% Riêng tư",
+                feature_4_desc: "Mọi phân tích đều diễn ra trên thiết bị của bạn. Ảnh không bao giờ rời khỏi điện thoại.",
+                feature_5_title: "Cực nhanh",
+                feature_5_desc: "Thuật toán tiên tiến quét toàn bộ thư viện ảnh trong vài giây. Không chờ đợi.",
+                feature_6_title: "Đề xuất thông minh",
+                feature_6_desc: "Đề xuất dựa trên AI giúp xác định ảnh mờ, ảnh chụp màn hình không cần thiết.",
+                screenshots_title: "Trải nghiệm CleanPhoto",
+                screenshots_subtitle: "Giao diện đẹp mắt, trực quan giúp dọn dẹp ảnh dễ dàng.",
+                how_title: "Cách hoạt động",
+                how_subtitle: "Ba bước đơn giản để giải phóng dung lượng.",
+                step_1_title: "Mở và quét",
+                step_1_desc: "Mở CleanPhoto và để nó phân tích thư viện ảnh trong vài giây.",
+                step_2_title: "Xem xét và chọn",
+                step_2_desc: "Duyệt qua các đề xuất thông minh về ảnh trùng lặp, chụp màn hình không cần thiết.",
+                step_3_title: "Dọn dẹp và tiết kiệm",
+                step_3_desc: "Xóa bằng một chạm và xem dung lượng khả dụng tăng lên.",
+                download_title: "Sẵn sàng dọn dẹp?",
+                download_desc: "Tải CleanPhoto ngay và bắt đầu lấy lại dung lượng lưu trữ. Dùng thử miễn phí, đủ mạnh để giữ lại.",
+                app_store_small: "Tải về tại",
+                app_store: "App Store",
+                footer_desc: "Trợ lý dọn dẹp ảnh thông minh AI. Giữ lại những gì quan trọng, xóa những gì không cần.",
+                footer_product: "Sản phẩm",
+                footer_support: "Hỗ trợ",
+                footer_privacy: "Chính sách bảo mật",
+                footer_contact: "Liên hệ"
+            },
+            id: {
+                nav_features: "Fitur",
+                nav_screenshots: "Tangkapan Layar",
+                nav_how_it_works: "Cara Kerja",
+                nav_download: "Unduh",
+                hero_title: "Bebaskan Ruang.<br>",
+                hero_subtitle: "Simpan Kenangan.",
+                hero_desc: "Pembersih foto cerdas AI yang secara otomatis mendeteksi foto serupa, tangkapan layar, dan foto buram. Bebaskan beberapa gigabyte ruang penyimpanan secara instan.",
+                btn_download_ios: "Unduh untuk iOS",
+                btn_learn_more: "Pelajari Lebih Lanjut",
+                badge_cleaned: "2.4 GB Dibersihkan!",
+                badge_private: "100% Privat",
+                phone_analysis_complete: "Analisis Selesai",
+                phone_ready_to_clean: "Siap Dibersihkan",
+                phone_storage_used: "Penyimpanan Digunakan",
+                phone_can_be_cleared: "12.5 GB dapat dihapus",
+                features_title: "Fitur Pembersihan Powerful",
+                features_subtitle: "Semua yang Anda butuhkan untuk menjaga perpustakaan foto tetap teratur dan membebaskan ruang penyimpanan.",
+                feature_1_title: "Deteksi Foto Serupa",
+                feature_1_desc: "Secara otomatis mengidentifikasi foto burst, duplikat, dan pengambilan serupa. Simpan yang terbaik dengan satu ketukan.",
+                feature_2_title: "Pengatur Tangkapan Layar",
+                feature_2_desc: "Temukan dan kategorikan semua tangkapan layar secara otomatis. Hapus yang lama atau tidak diinginkan.",
+                feature_3_title: "Analisis Penyimpanan",
+                feature_3_desc: "Visual chart menunjukkan dengan tepat apa yang menggunakan ruang. Lacak pertumbuhan perpustakaan foto.",
+                feature_4_title: "100% Privat",
+                feature_4_desc: "Semua analisis dilakukan di perangkat Anda. Foto tidak pernah meninggalkan ponsel Anda.",
+                feature_5_title: "Sangat Cepat",
+                feature_5_desc: "Algoritma canggih memindai seluruh perpustakaan foto dalam hitungan detik. Tanpa menunggu.",
+                feature_6_title: "Saran Cerdas",
+                feature_6_desc: "Rekomendasi berbasis AI membantu mengidentifikasi foto buram, tangkapan layar yang tidak diperlukan.",
+                screenshots_title: "Lihat CleanPhoto Beraksi",
+                screenshots_subtitle: "Antarmuka yang indah dan intuitif yang membuat pembersihan foto menjadi mudah.",
+                how_title: "Cara Kerja",
+                how_subtitle: "Tiga langkah sederhana untuk membebaskan ruang penyimpanan.",
+                step_1_title: "Buka & Pindai",
+                step_1_desc: "Lancarkan CleanPhoto dan biarkan menganalisis perpustakaan foto Anda dalam hitungan detik.",
+                step_2_title: "Tinjau & Pilih",
+                step_2_desc: "Jelajahi saran cerdas untuk duplikat, tangkapan layar, dan foto yang tidak diinginkan.",
+                step_3_title: "Bersihkan & Hemat",
+                step_3_desc: "Hapus dengan satu ketukan dan saksikan penyimpanan yang tersedia bertambah.",
+                download_title: "Siap untuk Bersih?",
+                download_desc: "Unduh CleanPhoto sekarang dan mulai mendapatkan kembali ruang penyimpanan Anda. Gratis mencoba, cukup kuat untuk disimpan.",
+                app_store_small: "Unduh di",
+                app_store: "App Store",
+                footer_desc: "Asisten pembersih foto AI yang cerdas. Simpan yang penting, bebaskan yang tidak.",
+                footer_product: "Produk",
+                footer_support: "Dukungan",
+                footer_privacy: "Kebijakan Privasi",
+                footer_contact: "Hubungi Kami"
+            },
+            ar: {
+                dir: "rtl",
+                nav_features: "الميزات",
+                nav_screenshots: "لقطات الشاشة",
+                nav_how_it_works: "كيف يعمل",
+                nav_download: "تحميل",
+                hero_title: "حرر المساحة.<br>",
+                hero_subtitle: "احفظ الذكريات.",
+                hero_desc: "منظف صور ذكي يعتمد على الذكاء الاصطناعي يكتشف تلقائيًا الصور المتشابهة ولقطات الشاشة والصور الضبابية. حرر عدة جيجابايت من مساحة التخزين فورًا.",
+                btn_download_ios: "تحميل ل iOS",
+                btn_learn_more: "اعرف المزيد",
+                badge_cleaned: "تم تنظيف 2.4 جيجابايت!",
+                badge_private: "100% خاص",
+                phone_analysis_complete: "اكتمل التحليل",
+                phone_ready_to_clean: "جاهز للتنظيف",
+                phone_storage_used: "التخزين المستخدم",
+                phone_can_be_cleared: "12.5 جيجابايت يمكن مسحها",
+                features_title: "ميزات تنظيف قوية",
+                features_subtitle: "كل ما تحتاجه للحفاظ على مكتبة الصور منظمة وتحرير مساحة التخزين الثمينة.",
+                feature_1_title: "اكتشاف الصور المتشابهة",
+                feature_1_desc: "تحديد تلقائي للصور المتسلسلة والمكررة والمتشابهة. احتفظ بالأفضل بنقرة واحدة.",
+                feature_2_title: "منظم لقطات الشاشة",
+                feature_2_desc: "العثور على جميع لقطات الشاشة وتصنيفها تلقائيًا. احذف القديمة غير المرغوب فيها.",
+                feature_3_title: "تحليل التخزين",
+                feature_3_desc: "المخططات البصرية توضح بالضبط ما يشغل المساحة. تتبع نمو مكتبة الصور.",
+                feature_4_title: "100% خاص",
+                feature_4_desc: "يتم إجراء جميع التحليلات على جهازك. لا تغادر صورك هاتفك أبدًا.",
+                feature_5_title: "سريع للغاية",
+                feature_5_desc: "الخوارزميات المتقدمة تفحص مكتبة الصور بالكامل في ثوانٍ. بدون انتظار.",
+                feature_6_title: "اقتراحات ذكية",
+                feature_6_desc: "التوصيات المدعومة بالذكاء الاصطناعي تساعد في تحديد الصور الضبابية ولقطات الشاشة غير المرغوب فيها.",
+                screenshots_title: "شاهد CleanPhoto في العمل",
+                screenshots_subtitle: "واجهة جميلة وبديهية تجعل تنظيف الصور سهلاً.",
+                how_title: "كيف يعمل",
+                how_subtitle: "ثلاث خطوات بسيطة لتحرير مساحة التخزين.",
+                step_1_title: "افتح وامسح",
+                step_1_desc: "شغّل CleanPhoto ودعه يحلل مكتبتك الصور في ثوانٍ.",
+                step_2_title: "راجع واختر",
+                step_2_desc: "تصفح الاقتراحات الذكية للصور المكررة ولقطات الشاشة والصور غير المرغوب فيها.",
+                step_3_title: "نظف ووفر",
+                step_3_desc: "احذف بنقرة واحدة وشاهد مساحة التخزين المتاحة تنمو.",
+                download_title: "مستعد للتنظيف؟",
+                download_desc: "حمّل CleanPhoto الآن وابدأ في استعادة مساحة التخزين الخاصة بك. جربه مجانًا، قوي بما يكفي للاحتفاظ به.",
+                app_store_small: "تحميل من",
+                app_store: "App Store",
+                footer_desc: "مساعد تنظيف صور ذكي بالذكاء الاصطناعي. احتفظ بالمهم، حرر غير المهم.",
+                footer_product: "المنتج",
+                footer_support: "الدعم",
+                footer_privacy: "سياسة الخصوصية",
+                footer_contact: "اتصل بنا"
+            },
+            fr: {
+                nav_features: "Fonctionnalités",
+                nav_screenshots: "Captures d'écran",
+                nav_how_it_works: "Fonctionnement",
+                nav_download: "Télécharger",
+                hero_title: "Libérez de l'espace.<br>",
+                hero_subtitle: "Conservez vos souvenirs.",
+                hero_desc: "Nettoyeur de photos intelligent alimenté par l'IA qui détecte automatiquement les photos similaires, les captures d'écran et les photos floues. Récupérez plusieurs gigaoctets d'espace de stockage instantanément.",
+                btn_download_ios: "Télécharger pour iOS",
+                btn_learn_more: "En savoir plus",
+                badge_cleaned: "2.4 Go nettoyés!",
+                badge_private: "100% Privé",
+                phone_analysis_complete: "Analyse terminée",
+                phone_ready_to_clean: "Prêt à nettoyer",
+                phone_storage_used: "Stockage utilisé",
+                phone_can_be_cleared: "12.5 Go peuvent être libérés",
+                features_title: "Fonctionnalités de nettoyage puissantes",
+                features_subtitle: "Tout ce dont vous avez besoin pour organiser votre bibliothèque de photos et libérer de l'espace de stockage précieux.",
+                feature_1_title: "Détection de photos similaires",
+                feature_1_desc: "Identifiez automatiquement les photos en rafale, les duplicatas et les prises similaires. Gardez la meilleure d'un seul tap.",
+                feature_2_title: "Organiseur de captures d'écran",
+                feature_2_desc: "Trouvez et catégorisez automatiquement toutes vos captures d'écran. Supprimez les anciennes ou indésirables.",
+                feature_3_title: "Analyse du stockage",
+                feature_3_desc: "Des graphiques visuels montrent exactement ce qui occupe de l'espace. Suivez la croissance de votre bibliothèque.",
+                feature_4_title: "100% Privé",
+                feature_4_desc: "Toute l'analyse se fait sur votre appareil. Vos photos ne quittent jamais votre téléphone.",
+                feature_5_title: "Ultra rapide",
+                feature_5_desc: "Des algorithmes avancés analysent votre bibliothèque entière en quelques secondes. Pas d'attente.",
+                feature_6_title: "Suggestions intelligentes",
+                feature_6_desc: "Des recommandations alimentées par l'IA vous aident à identifier les photos floues et inutiles.",
+                screenshots_title: "Voyez CleanPhoto en action",
+                screenshots_subtitle: "Une interface belle et intuitive qui rend le nettoyage de photos facile.",
+                how_title: "Comment ça marche",
+                how_subtitle: "Trois étapes simples pour libérer de l'espace de stockage.",
+                step_1_title: "Ouvrez et scannez",
+                step_1_desc: "Lancez CleanPhoto et laissez-le analyser votre bibliothèque en quelques secondes.",
+                step_2_title: "Vérifiez et sélectionnez",
+                step_2_desc: "Parcourez les suggestions intelligentes pour les doublons et captures d'écran inutiles.",
+                step_3_title: "Nettoyez et économisez",
+                step_3_desc: "Supprimez d'un tap et regardez votre stockage disponible augmenter.",
+                download_title: "Prêt à nettoyer?",
+                download_desc: "Téléchargez CleanPhoto maintenant et commencez à récupérer votre espace de stockage. Gratuit à essayer, assez puissant pour garder.",
+                app_store_small: "Télécharger sur",
+                app_store: "App Store",
+                footer_desc: "Assistant de nettoyage de photos intelligent alimenté par l'IA. Gardez ce qui compte, libérez ce qui ne compte pas.",
+                footer_product: "Produit",
+                footer_support: "Support",
+                footer_privacy: "Politique de confidentialité",
+                footer_contact: "Contactez-nous"
+            },
+            de: {
+                nav_features: "Funktionen",
+                nav_screenshots: "Screenshots",
+                nav_how_it_works: "So funktioniert's",
+                nav_download: "Herunterladen",
+                hero_title: "Schaffe Platz.<br>",
+                hero_subtitle: "Behalte Erinnerungen.",
+                hero_desc: "Intelligenter KI-Fotoreiniger, der automatisch ähnliche Fotos, Screenshots und unscharfe Bilder erkennt. Befreie sofort mehrere Gigabyte Speicherplatz.",
+                btn_download_ios: "Für iOS herunterladen",
+                btn_learn_more: "Mehr erfahren",
+                badge_cleaned: "2.4 GB bereinigt!",
+                badge_private: "100% Privat",
+                phone_analysis_complete: "Analyse abgeschlossen",
+                phone_ready_to_clean: "Bereit zum Bereinigen",
+                phone_storage_used: "Genutzter Speicher",
+                phone_can_be_cleared: "12.5 GB können gelöscht werden",
+                features_title: "Leistungsstarke Reinigungsfunktionen",
+                features_subtitle: "Alles was du brauchst, um deine Fotobibliothek zu organisieren und wertvollen Speicherplatz freizugeben.",
+                feature_1_title: "Ähnliche Fotodatenbank",
+                feature_1_desc: "Erkennt automatisch Serienfotos, Duplikate und ähnliche Aufnahmen. Behalte die beste mit einem Tippen.",
+                feature_2_title: "Screenshot-Organizer",
+                feature_2_desc: "Findet und kategorisiert alle Screenshots automatisch. Lösche alte oder unerwünschte.",
+                feature_3_title: "Speicheranalyse",
+                feature_3_desc: "Visualisiert genau, was Speicherplatz belegt. Verfolge das Wachstum deiner Bibliothek.",
+                feature_4_title: "100% Privat",
+                feature_4_desc: "Alle Analysen erfolgen auf deinem Gerät. Deine Fotos verlassen niemals dein Phone.",
+                feature_5_title: "Blitzschnell",
+                feature_5_desc: "Fortschrittliche Algorithmen scannen deine gesamte Bibliothek in Sekunden. Kein Warten.",
+                feature_6_title: "Intelligente Vorschläge",
+                feature_6_desc: "KI-gestützte Empfehlungen helfen bei der Identifikation unscharfer und unnötiger Bilder.",
+                screenshots_title: "CleanPhoto in Aktion",
+                screenshots_subtitle: "Schöne, intuitive Oberfläche, die das Fotoreinigen einfach macht.",
+                how_title: "So funktioniert's",
+                how_subtitle: "Drei einfache Schritte, um Speicherplatz freizugeben.",
+                step_1_title: "Öffnen & Scannen",
+                step_1_desc: "Starte CleanPhoto und lasse deine Bibliothek in Sekunden analysieren.",
+                step_2_title: "Überprüfen & Auswählen",
+                step_2_desc: "Durchsuche intelligente Vorschläge für Duplikate und unnötige Screenshots.",
+                step_3_title: "Bereinigen & Sparen",
+                step_3_desc: "Lösche mit einem Tippen und sieh deinen verfügbaren Speicher wachsen.",
+                download_title: "Bereit zum Reinigen?",
+                download_desc: "Lade CleanPhoto jetzt herunter und beginne, deinen Speicherplatz zurückzugewinnen. Kostenlos testen, stark genug zum Behalten.",
+                app_store_small: "Herunterladen im",
+                app_store: "App Store",
+                footer_desc: "Intelligenter KI-Fotoreinigungsassistent. Behalte was wichtig ist, befreie was nicht.",
+                footer_product: "Produkt",
+                footer_support: "Support",
+                footer_privacy: "Datenschutzrichtlinie",
+                footer_contact: "Kontakt"
+            },
+            es: {
+                nav_features: "Características",
+                nav_screenshots: "Capturas de pantalla",
+                nav_how_it_works: "Cómo funciona",
+                nav_download: "Descargar",
+                hero_title: "Libera espacio.<br>",
+                hero_subtitle: "Conserva tus recuerdos.",
+                hero_desc: "Limpiador de fotos inteligente con IA que detecta automáticamente fotos similares, capturas de pantalla y fotos borrosas. Recupera varios gigabytes de almacenamiento al instante.",
+                btn_download_ios: "Descargar para iOS",
+                btn_learn_more: "Más información",
+                badge_cleaned: "2.4 GB limpiados!",
+                badge_private: "100% Privado",
+                phone_analysis_complete: "Análisis completado",
+                phone_ready_to_clean: "Listo para limpiar",
+                phone_storage_used: "Almacenamiento usado",
+                phone_can_be_cleared: "12.5 GB pueden liberarse",
+                features_title: "Potentes funciones de limpieza",
+                features_subtitle: "Todo lo que necesitas para mantener tu biblioteca de fotos organizada y liberar espacio.",
+                feature_1_title: "Detección de fotos similares",
+                feature_1_desc: "Identifica automáticamente fotos en ráfaga, duplicados y tomas similares. Guarda la mejor con un toque.",
+                feature_2_title: "Organizador de capturas",
+                feature_2_desc: "Encuentra y categoriza todas tus capturas automáticamente. Elimina las antiguas o innecesarias.",
+                feature_3_title: "Análisis de almacenamiento",
+                feature_3_desc: "Gráficos visuales muestran exactamente qué ocupa espacio. Rastrea el crecimiento de tu biblioteca.",
+                feature_4_title: "100% Privado",
+                feature_4_desc: "Todo el análisis se hace en tu dispositivo. Tus fotos nunca salen de tu teléfono.",
+                feature_5_title: "Súper rápido",
+                feature_5_desc: "Algoritmos avanzados escanean toda tu biblioteca en segundos. Sin esperar.",
+                feature_6_title: "Sugerencias inteligentes",
+                feature_6_desc: "Recomendaciones con IA ayudan a identificar fotos borrosas e innecesarias.",
+                screenshots_title: "Ver CleanPhoto en acción",
+                screenshots_subtitle: "Interfaz hermosa e intuitiva que hace que la limpieza de fotos sea fácil.",
+                how_title: "Cómo funciona",
+                how_subtitle: "Tres pasos simples para liberar espacio de almacenamiento.",
+                step_1_title: "Abre y escanea",
+                step_1_desc: "Abre CleanPhoto y deja que analice tu biblioteca en segundos.",
+                step_2_title: "Revisa y selecciona",
+                step_2_desc: "Navega por sugerencias inteligentes para duplicados y capturas innecesarias.",
+                step_3_title: "Limpia y ahorra",
+                step_3_desc: "Elimina con un toque y mira crecer tu almacenamiento disponible.",
+                download_title: "Listo para limpiar?",
+                download_desc: "Descarga CleanPhoto ahora y comienza a recuperar tu espacio de almacenamiento. Gratis de probar, suficientemente potente para guardar.",
+                app_store_small: "Descargar en",
+                app_store: "App Store",
+                footer_desc: "Asistente inteligente de limpieza de fotos con IA. Conserva lo importante, libera lo que no.",
+                footer_product: "Producto",
+                footer_support: "Soporte",
+                footer_privacy: "Política de privacidad",
+                footer_contact: "Contáctanos"
+            },
+            pt: {
+                nav_features: "Recursos",
+                nav_screenshots: "Capturas de tela",
+                nav_how_it_works: "Como funciona",
+                nav_download: "Baixar",
+                hero_title: "Libere espaço.<br>",
+                hero_subtitle: "Guarde memórias.",
+                hero_desc: "Limpador de fotos inteligente com IA que detecta automaticamente fotos semelhantes, capturas de tela e fotos borradas. Recupere gigabytes de armazenamento instantaneamente.",
+                btn_download_ios: "Baixar para iOS",
+                btn_learn_more: "Saiba mais",
+                badge_cleaned: "2.4 GB limpos!",
+                badge_private: "100% Privado",
+                phone_analysis_complete: "Análise concluída",
+                phone_ready_to_clean: "Pronto para limpar",
+                phone_storage_used: "Armazenamento usado",
+                phone_can_be_cleared: "12.5 GB podem ser liberados",
+                features_title: "Recursos de limpeza poderosos",
+                features_subtitle: "Tudo que você precisa para manter sua biblioteca de fotos organizada e liberar espaço valioso.",
+                feature_1_title: "Detecção de fotos semelhantes",
+                feature_1_desc: "Identifique automaticamente fotos em sequência, duplicatas e fotos similares. Salve a melhor com um toque.",
+                feature_2_title: "Organizador de capturas",
+                feature_2_desc: "Encontre e categorize todas as suas capturas automaticamente. Remova as antigas ou indesejadas.",
+                feature_3_title: "Análise de armazenamento",
+                feature_3_desc: "Gráficos visuais mostram exatamente o que está ocupando espaço. Acompanhe o crescimento.",
+                feature_4_title: "100% Privado",
+                feature_4_desc: "Toda a análise é feita no seu dispositivo. Suas fotos nunca saem do seu celular.",
+                feature_5_title: "Super rápido",
+                feature_5_desc: "Algoritmos avançados escaneiam toda sua biblioteca em segundos. Sem espera.",
+                feature_6_title: "Sugestões inteligentes",
+                feature_6_desc: "Recomendações com IA ajudam a identificar fotos borradas e desnecessárias.",
+                screenshots_title: "Veja CleanPhoto em ação",
+                screenshots_subtitle: "Interface linda e intuitiva que torna a limpeza de fotos fácil.",
+                how_title: "Como funciona",
+                how_subtitle: "Três passos simples para liberar espaço de armazenamento.",
+                step_1_title: "Abra e escaneie",
+                step_1_desc: "Inicie CleanPhoto e deixe-o analisar sua biblioteca em segundos.",
+                step_2_title: "Revise e selecione",
+                step_2_desc: "Navegue por sugestões inteligentes para duplicatas e capturas desnecessárias.",
+                step_3_title: "Limpe e economize",
+                step_3_desc: "Delete com um toque e veja seu armazenamento disponível crescer.",
+                download_title: "Pronto para limpar?",
+                download_desc: "Baixe CleanPhoto agora e comece a recuperar seu espaço de armazenamento. Grátis para experimentar, poderoso o suficiente para ficar.",
+                app_store_small: "Baixe na",
+                app_store: "App Store",
+                footer_desc: "Assistente inteligente de limpeza de fotos com IA. Guarde o importante, libere o que não é.",
+                footer_product: "Produto",
+                footer_support: "Suporte",
+                footer_privacy: "Política de privacidade",
+                footer_contact: "Contate-nos"
+            },
+            it: {
+                nav_features: "Funzionalità",
+                nav_screenshots: "Screenshot",
+                nav_how_it_works: "Come funziona",
+                nav_download: "Scarica",
+                hero_title: "Libera spazio.<br>",
+                hero_subtitle: "Conserva i ricordi.",
+                hero_desc: "Pulitore foto intelligente con IA che rileva automaticamente foto simili, screenshot e foto sfocate. Recupera gigabyte di spazio di archiviazione istantaneamente.",
+                btn_download_ios: "Scarica per iOS",
+                btn_learn_more: "Scopri di più",
+                badge_cleaned: "2.4 GB puliti!",
+                badge_private: "100% Privato",
+                phone_analysis_complete: "Analisi completata",
+                phone_ready_to_clean: "Pronto per pulire",
+                phone_storage_used: "Spazio usato",
+                phone_can_be_cleared: "12.5 GB possono essere liberati",
+                features_title: "Potenti funzionalità di pulizia",
+                features_subtitle: "Tutto ciò che ti serve per mantenere organizzata la tua libreria foto e liberare spazio.",
+                feature_1_title: "Rilevamento foto simili",
+                feature_1_desc: "Identifica automaticamente foto a raffica, duplicati e scatti simili. Tieni la migliore con un tap.",
+                feature_2_title: "Organizzatore screenshot",
+                feature_2_desc: "Trova e categorizza automaticamente tutti i tuoi screenshot. Rimuovi quelli vecchi o indesiderati.",
+                feature_3_title: "Analisi archiviazione",
+                feature_3_desc: "Grafici visuali mostrano esattamente cosa occupa spazio. Traccia la crescita della libreria.",
+                feature_4_title: "100% Privato",
+                feature_4_desc: "Tutta l'analisi avviene sul tuo dispositivo. Le tue foto non lasciano mai il telefono.",
+                feature_5_title: "Super veloce",
+                feature_5_desc: "Algoritmi avanzati scansionano l'intera libreria in pochi secondi. Nessuna attesa.",
+                feature_6_title: "Suggerimenti intelligenti",
+                feature_6_desc: "Raccomandazioni con IA aiutano a identificare foto sfocate e inutili.",
+                screenshots_title: "Guarda CleanPhoto in azione",
+                screenshots_subtitle: "Interfaccia bellissima e intuitiva che rende la pulizia foto facile.",
+                how_title: "Come funziona",
+                how_subtitle: "Tre semplici passaggi per liberare spazio di archiviazione.",
+                step_1_title: "Apri e scansiona",
+                step_1_desc: "Avvia CleanPhoto e lascia che analizzi la tua libreria in pochi secondi.",
+                step_2_title: "Rivedi e seleziona",
+                step_2_desc: "Sfoglia suggerimenti intelligenti per duplicati e screenshot inutili.",
+                step_3_title: "Pulisci e risparmia",
+                step_3_desc: "Elimina con un tap e guarda crescere lo spazio disponibile.",
+                download_title: "Pronto a pulire?",
+                download_desc: "Scarica CleanPhoto ora e inizia a recuperare il tuo spazio. Prova gratis, abbastanza potente da tenere.",
+                app_store_small: "Scarica da",
+                app_store: "App Store",
+                footer_desc: "Assistente intelligente per pulizia foto con AI. Conserva ciò che conta, libera ciò che non conta.",
+                footer_product: "Prodotto",
+                footer_support: "Supporto",
+                footer_privacy: "Informativa sulla privacy",
+                footer_contact: "Contattaci"
+            }
+        };
+
+        // Language codes for display
+        const languageNames = {
+            en: "English",
+            "zh-Hans": "简体中文",
+            "zh-Hant": "繁體中文",
+            ja: "日本語",
+            ko: "한국어",
+            vi: "Tiếng Việt",
+            id: "Bahasa Indonesia",
+            ar: "العربية",
+            fr: "Français",
+            de: "Deutsch",
+            es: "Español",
+            pt: "Português",
+            it: "Italiano"
+        };
+
+        // Detect browser language
+        function detectBrowserLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const langMap = {
+                'zh-CN': 'zh-Hans',
+                'zh-TW': 'zh-Hant',
+                'zh-MO': 'zh-Hant',
+                'ja': 'ja',
+                'ko': 'ko',
+                'vi': 'vi',
+                'id': 'id',
+                'ar': 'ar',
+                'fr': 'fr',
+                'de': 'de',
+                'es': 'es',
+                'pt-BR': 'pt',
+                'pt-PT': 'pt',
+                'it': 'it',
+                'en': 'en'
+            };
+            return langMap[browserLang] || langMap[browserLang.split('-')[0]] || 'en';
+        }
+
+        // Get saved language or detect
+        let currentLang = localStorage.getItem('cleanphoto-lang') || detectBrowserLanguage();
+
+        // Initialize
+        function initLanguage() {
+            const langOptions = document.querySelectorAll('.language-option');
+            const currentLangBtn = document.getElementById('currentLang');
+
+            // Set current language display
+            currentLangBtn.textContent = currentLang.toUpperCase();
+
+            // Update active state
+            langOptions.forEach(opt => {
+                if (opt.dataset.lang === currentLang) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            // Apply translations
+            applyTranslations(currentLang);
+        }
+
+        // Apply translations
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.en;
+
+            // Set RTL for Arabic
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (t[key]) {
+                    // Handle nested content (br tags in titles)
+                    if (key === 'hero_title' && t[key].includes('<br>')) {
+                        el.innerHTML = t[key];
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+        }
+
+        // Language button click handler
+        document.getElementById('languageBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        // Language option click handler
+        document.querySelectorAll('.language-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                currentLang = lang;
+                localStorage.setItem('cleanphoto-lang', lang);
+                initLanguage();
+                document.getElementById('languageDropdown').classList.remove('active');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            document.getElementById('languageDropdown').classList.remove('active');
+        });
+
+        // Prevent dropdown from closing when clicking inside
+        document.getElementById('languageDropdown').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -1178,6 +2076,9 @@
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+
+        // Initialize language on page load
+        initLanguage();
     </script>
 </body>
 </html>
