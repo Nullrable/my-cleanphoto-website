@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CleanPhoto - Smart Photo Cleaner, free up space on your phone">
-    <title>CleanPhoto - Smart Photo Cleaning Assistant</title>
+    <meta name="description" content="CleanPhoto - Smart Photo Cleaner for iOS. Free up space by removing similar photos, screenshots, and blurry images.">
+    <title>CleanPhoto - Smart Photo Cleaner App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,26 +16,53 @@
         }
 
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #10b981;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --bg-light: #f9fafb;
-            --white: #ffffff;
+            --primary: #F97316;
+            --primary-dark: #EA580C;
+            --secondary: #3B82F6;
+            --accent: #8B5CF6;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --text-muted: #9CA3AF;
+            --bg-light: #FFF7ED;
+            --white: #FFFFFF;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(249, 115, 22, 0.3);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--white);
+            background: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(249, 115, 22, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59, 130, 246, 0.1), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(139, 92, 246, 0.08), transparent);
         }
 
         /* Header */
@@ -41,56 +71,77 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
             z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px;
+            height: 72px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-dark);
             text-decoration: none;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 26px;
+            height: 26px;
             color: white;
-            font-size: 1.2rem;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             list-style: none;
         }
 
         .nav-links a {
+            color: var(--text-light);
             text-decoration: none;
-            color: var(--text-dark);
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
         }
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        .nav-cta {
+            background: var(--text-dark);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary) !important;
+            transform: translateY(-1px);
         }
 
         /* Hero Section */
@@ -98,8 +149,8 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding-top: 70px;
-            background: linear-gradient(180deg, var(--bg-light) 0%, var(--white) 100%);
+            padding: 120px 0 80px;
+            position: relative;
         }
 
         .hero-content {
@@ -110,14 +161,14 @@
         }
 
         .hero-text h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
         }
 
         .hero-text h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -126,12 +177,35 @@
         .hero-text p {
             font-size: 1.2rem;
             color: var(--text-light);
-            margin-bottom: 30px;
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 36px;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
 
         .hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
@@ -139,147 +213,255 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 15px 30px;
+            padding: 16px 28px;
             border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             cursor: pointer;
             border: none;
+            font-family: inherit;
         }
 
         .btn-primary {
             background: var(--primary);
             color: white;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
         }
 
         .btn-secondary {
             background: var(--white);
             color: var(--text-dark);
-            border: 2px solid #e5e7eb;
+            border: 2px solid #E5E7EB;
         }
 
         .btn-secondary:hover {
             border-color: var(--primary);
             color: var(--primary);
+            transform: translateY(-2px);
         }
 
+        .btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Phone Mockup */
         .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-wrapper {
             position: relative;
         }
 
         .phone-mockup {
             width: 280px;
             height: 580px;
-            background: linear-gradient(145deg, #1f2937, #374151);
-            border-radius: 40px;
-            padding: 12px;
-            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3);
-            margin: 0 auto;
+            background: linear-gradient(145deg, #1F2937, #111827);
+            border-radius: 44px;
+            padding: 10px;
+            box-shadow:
+                0 50px 100px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #000;
+            border-radius: 12px;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
         }
 
         .phone-screen {
             width: 100%;
             height: 100%;
-            background: var(--white);
-            border-radius: 32px;
+            background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-radius: 36px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         .phone-header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 20px 15px 15px;
+            padding: 32px 16px 16px;
             text-align: center;
-            font-size: 0.85rem;
+        }
+
+        .phone-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .phone-header span {
+            font-size: 0.75rem;
+            opacity: 0.9;
         }
 
         .phone-content {
             flex: 1;
-            padding: 15px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
+        .clean-summary {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
         }
 
-        .photo-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-            border-radius: 8px;
-        }
-
-        .storage-bar {
-            background: #f3f4f6;
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: auto;
-        }
-
-        .storage-label {
-            font-size: 0.7rem;
+        .clean-summary h4 {
+            font-size: 0.8rem;
             color: var(--text-light);
             margin-bottom: 8px;
         }
 
+        .clean-number {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+        }
+
+        .storage-bar {
+            background: #E5E7EB;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: auto;
+        }
+
+        .storage-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
         .storage-progress {
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
+            height: 10px;
+            background: #F3F4F6;
+            border-radius: 5px;
             overflow: hidden;
         }
 
         .storage-fill {
-            width: 85%;
+            width: 72%;
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            animation: fillProgress 2s ease-out forwards;
+        }
+
+        @keyframes fillProgress {
+            from { width: 0; }
         }
 
         .storage-text {
-            font-size: 0.65rem;
-            color: var(--text-light);
-            margin-top: 5px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 8px;
         }
 
-        /* Features */
+        /* Floating Elements */
+        .floating-badge {
+            position: absolute;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            animation: badgeFloat 4s ease-in-out infinite;
+        }
+
+        .floating-badge-1 {
+            top: 20%;
+            right: -20px;
+            animation-delay: 0s;
+        }
+
+        .floating-badge-2 {
+            bottom: 25%;
+            left: -30px;
+            animation-delay: 1s;
+        }
+
+        .floating-badge .icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-badge-1 .icon {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+
+        .floating-badge-2 .icon {
+            background: linear-gradient(135deg, var(--secondary), #1D4ED8);
+            color: white;
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Features Section */
         .features {
             padding: 100px 0;
             background: var(--white);
         }
 
-        .section-title {
+        .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            max-width: 600px;
+            margin: 0 auto 60px;
         }
 
-        .section-title h2 {
-            font-size: 2.5rem;
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
-        .section-title p {
+        .section-header p {
             color: var(--text-light);
             font-size: 1.1rem;
         }
@@ -287,105 +469,228 @@
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 24px;
         }
 
         .feature-card {
-            padding: 40px 30px;
+            padding: 32px;
             border-radius: 20px;
             background: var(--bg-light);
+            border: 1px solid rgba(249, 115, 22, 0.1);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
             margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.25);
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
         }
 
         .feature-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
         .feature-card p {
             color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
-        /* Screenshots */
+        /* Screenshots Section */
         .screenshots {
             padding: 100px 0;
             background: var(--bg-light);
+            position: relative;
         }
 
-        .screenshots-scroll {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            overflow-x: auto;
-            padding: 20px 0;
-            scroll-snap-type: x mandatory;
+        .screenshots-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        .screenshot {
-            flex: 0 0 auto;
-            width: 180px;
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .screenshot-card {
+            position: relative;
             aspect-ratio: 9/19.5;
-            background: #f3f4f6;
-            border-radius: 16px;
+            background: var(--white);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s ease;
+            cursor: pointer;
         }
 
-        .screenshot img {
+        .screenshot-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .screenshot-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .screenshot:hover {
-            transform: scale(1.05);
+        .screenshot-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Download */
-        .download {
+        .screenshot-card:hover .screenshot-overlay {
+            opacity: 1;
+        }
+
+        /* How It Works */
+        .how-it-works {
             padding: 100px 0;
             background: var(--white);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -20px;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: white;
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        .step h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Download Section */
+        .download {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(249, 115, 22, 0.12) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .download-content {
             text-align: center;
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
         }
 
         .download h2 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
             margin-bottom: 20px;
         }
 
         .download p {
             color: var(--text-light);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 40px;
         }
 
         .download-buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
@@ -393,21 +698,25 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            padding: 15px 25px;
+            padding: 14px 24px;
             background: var(--text-dark);
             color: white;
-            border-radius: 12px;
+            border-radius: 14px;
             text-decoration: none;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
         .store-btn:hover {
+            background: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.35);
         }
 
-        .store-btn .icon {
-            font-size: 1.8rem;
+        .store-btn svg {
+            width: 28px;
+            height: 28px;
         }
 
         .store-btn .text {
@@ -418,6 +727,7 @@
             display: block;
             font-size: 0.7rem;
             opacity: 0.8;
+            margin-bottom: 2px;
         }
 
         .store-btn .text span {
@@ -427,7 +737,7 @@
 
         /* Footer */
         footer {
-            background: var(--text-dark);
+            background: #111827;
             color: white;
             padding: 60px 0 30px;
         }
@@ -435,23 +745,25 @@
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 40px;
+            gap: 60px;
             margin-bottom: 40px;
         }
 
         .footer-brand .logo {
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .footer-brand p {
-            color: #9ca3af;
-            font-size: 0.9rem;
+            color: #9CA3AF;
+            font-size: 0.95rem;
+            max-width: 300px;
         }
 
         .footer-links h4 {
             margin-bottom: 20px;
             font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .footer-links ul {
@@ -459,37 +771,41 @@
         }
 
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .footer-links a {
-            color: #9ca3af;
+            color: #9CA3AF;
             text-decoration: none;
             font-size: 0.9rem;
-            transition: color 0.3s;
+            transition: color 0.2s ease;
         }
 
         .footer-links a:hover {
-            color: white;
+            color: var(--primary);
         }
 
         .footer-bottom {
             border-top: 1px solid #374151;
             padding-top: 30px;
             text-align: center;
-            color: #6b7280;
-            font-size: 0.85rem;
+            color: #6B7280;
+            font-size: 0.875rem;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
 
-            .hero-text h1 {
-                font-size: 2.5rem;
+            .hero-text p {
+                margin: 0 auto 32px;
+            }
+
+            .hero-stats {
+                justify-content: center;
             }
 
             .hero-buttons {
@@ -500,28 +816,66 @@
                 display: none;
             }
 
+            .floating-badge {
+                display: none;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
+                gap: 40px;
+            }
+
+            .footer-brand p {
+                max-width: none;
+            }
+
+            .step:not(:last-child)::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .phone-mockup {
+                width: 240px;
+                height: 500px;
+            }
+
+            .btn {
+                padding: 14px 22px;
+                font-size: 0.9rem;
+            }
+
+            .store-btn {
+                padding: 12px 20px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="bg-gradient"></div>
+
     <!-- Header -->
     <header>
         <div class="container">
             <nav>
                 <a href="#" class="logo">
-                    <div >
-                        <img src="icon-83.5@2x.png" class="logo-icon">
+                    <div class="logo-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                     </div>
                     CleanPhoto
                 </a>
                 <ul class="nav-links">
                     <li><a href="#features">Features</a></li>
                     <li><a href="#screenshots">Screenshots</a></li>
-                    <li><a href="#download">Download</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#download" class="nav-cta">Download</a></li>
                 </ul>
             </nav>
         </div>
@@ -532,11 +886,28 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>Clean Up<br><span>Free Up Space</span></h1>
-                    <p>Smart detection of similar photos, screenshots, and blurry images. Quickly free up storage space and keep your phone running smoothly.</p>
+                    <h1>Free Up Space.<br><span>Keep Memories.</span></h1>
+                    <p>Smart AI-powered photo cleaner that finds similar photos, screenshots, and blurry images. Reclaim gigabytes of storage instantly.</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">10M+</div>
+                            <div class="stat-label">Downloads</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">App Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">50GB+</div>
+                            <div class="stat-label">Space Cleared Daily</div>
+                        </div>
+                    </div>
                     <div class="hero-buttons">
                         <a href="#download" class="btn btn-primary">
-                            <span>Download Now</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                            <span>Download for iOS</span>
                         </a>
                         <a href="#features" class="btn btn-secondary">
                             <span>Learn More</span>
@@ -544,30 +915,44 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <div class="phone-mockup">
-                        <div class="phone-screen">
-                            <div class="phone-header">
-                                CleanPhoto<br>
-                                <small>5.2 GB Cleaned</small>
+                    <div class="phone-wrapper">
+                        <div class="floating-badge floating-badge-1">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 6L9 17l-5-5"/>
+                                </svg>
                             </div>
-                            <div class="phone-content">
-                                <div class="photo-grid">
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #fca5a5, #fecaca);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #86efac, #bbf7d0);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #93c5fd, #bfdbfe);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #fcd34d, #fde68a);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #c4b5fd, #ddd6fe);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #67e8f9, #a5f3fc);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #f9a8d4, #fbcfe8);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #a3e635, #d9f99d);"></div>
-                                    <div class="photo-item" style="background: linear-gradient(135deg, #f97316, #fed7aa);"></div>
+                            <span>2.4 GB Cleaned!</span>
+                        </div>
+                        <div class="floating-badge floating-badge-2">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <span>100% Private</span>
+                        </div>
+                        <div class="phone-mockup">
+                            <div class="phone-screen">
+                                <div class="phone-header">
+                                    <h3>CleanPhoto</h3>
+                                    <span>Analysis Complete</span>
                                 </div>
-                                <div class="storage-bar">
-                                    <div class="storage-label">Storage Analysis</div>
-                                    <div class="storage-progress">
-                                        <div class="storage-fill"></div>
+                                <div class="phone-content">
+                                    <div class="clean-summary">
+                                        <h4>Ready to Clean</h4>
+                                        <div class="clean-number">5.2 GB</div>
                                     </div>
-                                    <div class="storage-text">12.5 GB Can Be Cleared · 85% Used</div>
+                                    <div class="storage-bar">
+                                        <div class="storage-label">
+                                            <span>Storage Used</span>
+                                            <span>72%</span>
+                                        </div>
+                                        <div class="storage-progress">
+                                            <div class="storage-fill"></div>
+                                        </div>
+                                        <div class="storage-text">12.5 GB can be cleared</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -580,35 +965,64 @@
     <!-- Features -->
     <section class="features" id="features">
         <div class="container">
-            <div class="section-title">
-                <h2>Powerful Features</h2>
-                <p>Smart cleaning made simple</p>
+            <div class="section-header">
+                <h2>Powerful Cleaning Features</h2>
+                <p>Everything you need to keep your photo library organized and free up valuable storage space.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🖼️</div>
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
                     <h3>Similar Photo Detection</h3>
-                    <p>Smartly identify burst photos and similar images. Keep the best version and delete duplicates with one tap.</p>
+                    <p>Automatically identify burst photos, duplicates, and similar shots. Keep the best one with a single tap.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Screenshot Recognition</h3>
-                    <p>Automatically organize screenshots, categorize by time and type, and clear useless ones to free up space.</p>
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3>Screenshot Organizer</h3>
+                    <p>Find and categorize all your screenshots automatically. Remove old or unwanted ones to free up space.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Storage Analysis</h3>
-                    <p>Visualize photo storage usage distribution and clearly understand your storage status.</p>
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h3>Storage Analytics</h3>
+                    <p>Visual charts show exactly what's taking up space. Track your photo library growth over time.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Privacy Protection</h3>
-                    <p>All analysis is done locally. Your photos never leave your device. Safe and secure.</p>
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3>100% Private</h3>
+                    <p>All analysis happens on your device. Your photos never leave your phone. Complete privacy guaranteed.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fast Scanning</h3>
-                    <p>Using advanced algorithms to quickly scan your entire library with efficiency and quality.</p>
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Advanced algorithms scan your entire photo library in seconds. No waiting, no slowing down.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h3>Smart Suggestions</h3>
+                    <p>AI-powered recommendations help you identify blurry photos, bad screenshots, and unwanted images.</p>
                 </div>
             </div>
         </div>
@@ -616,18 +1030,60 @@
 
     <!-- Screenshots -->
     <section class="screenshots" id="screenshots">
+        <div class="screenshots-bg"></div>
         <div class="container">
-            <div class="section-title">
-                <h2>App Screenshots</h2>
-                <p>Clean interface, easy to use</p>
+            <div class="section-header">
+                <h2>See CleanPhoto in Action</h2>
+                <p>Beautiful, intuitive interface that makes photo cleaning a breeze.</p>
             </div>
-            <div class="screenshots-scroll">
-                <div class="screenshot"><img src="home.png"></div>
-                <div class="screenshot"><img src="similar.png"></div>
-                <div class="screenshot"><img src="2.png"></div>
-                <div class="screenshot"><img src="tag.png"></div>
-                <div class="screenshot"><img src="pre_delete.png"></div>
-                <div class="screenshot"><img src="free.png"></div>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <img src="images/ios_1.png" alt="CleanPhoto Home Screen">
+                    <div class="screenshot-overlay"></div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="images/ios_2.png" alt="Photo Analysis">
+                    <div class="screenshot-overlay"></div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="images/ios_3.png" alt="Similar Photos Detection">
+                    <div class="screenshot-overlay"></div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="images/ios_4.png" alt="Screenshot Management">
+                    <div class="screenshot-overlay"></div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="images/ios_5.png" alt="Storage Cleanup">
+                    <div class="screenshot-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Three simple steps to free up storage space.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Open & Scan</h3>
+                    <p>Launch CleanPhoto and let it analyze your photo library in seconds.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Review & Select</h3>
+                    <p>Browse smart suggestions for duplicates, screenshots, and unwanted photos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Clean & Save</h3>
+                    <p>Delete with one tap and watch your available storage grow.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -636,14 +1092,16 @@
     <section class="download" id="download">
         <div class="container">
             <div class="download-content">
-                <h2>Start Cleaning Your Photos</h2>
-                <p>Download CleanPhoto now and give your phone a fresh start. Available on iOS and Android.</p>
+                <h2>Ready to Clean Up?</h2>
+                <p>Download CleanPhoto now and start reclaiming your storage space. Free to try, powerful enough to keep.</p>
                 <div class="download-buttons">
-                    <a href="https://apps.apple.com/us/app/cleanphoto/id6758242073" class="store-btn">
-                        <span class="icon">🍎</span>
+                    <a href="https://apps.apple.com/us/app/cleanphoto/id6758242073" class="store-btn" target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
                         <span class="text">
                             <small>Download on the</small>
-                            <span>Apple Store</span>
+                            <span>App Store</span>
                         </span>
                     </a>
                 </div>
@@ -657,10 +1115,14 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <div class="logo-icon">📷</div>
+                        <div class="logo-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
                         CleanPhoto
                     </a>
-                    <p>Smart photo cleaning assistant. Making phone storage management simple and efficient.</p>
+                    <p>Smart AI-powered photo cleaning assistant. Keep what matters, free what doesn't.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Product</h4>
@@ -671,10 +1133,9 @@
                     </ul>
                 </div>
                 <div class="footer-links">
-                    <h4>Legal</h4>
+                    <h4>Support</h4>
                     <ul>
-                        <li><a href="https://docs.google.com/document/d/1R4ZKff-zySRzuw4l56_n2h489QxF_Vhd55WFM3svVEY/edit?usp=sharing">Privacy Policy</a></li>
-<!--                        <li><a href="#">Terms of Service</a></li>-->
+                        <li><a href="https://docs.google.com/document/d/1R4ZKff-zySRzuw4l56_n2h489QxF_Vhd55WFM3svVEY/edit?usp=sharing" target="_blank" rel="noopener">Privacy Policy</a></li>
                         <li><a href="mailto:nhsoft.lsd@gmail.com">Contact Us</a></li>
                     </ul>
                 </div>
@@ -684,5 +1145,43 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .step, .screenshot-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
