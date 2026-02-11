@@ -553,25 +553,27 @@
 
         .screenshots-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 24px;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .screenshot-card {
             position: relative;
             aspect-ratio: 9/19.5;
-            background: var(--white);
-            border-radius: 20px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            transition: all 0.4s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .screenshot-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: var(--shadow-glow);
         }
 
@@ -579,6 +581,14 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: opacity 0.3s ease;
+        }
+
+        .screenshot-card img:not([src]) {
+            opacity: 0;
         }
 
         .screenshot-overlay {
@@ -888,20 +898,6 @@
                 <div class="hero-text">
                     <h1>Free Up Space.<br><span>Keep Memories.</span></h1>
                     <p>Smart AI-powered photo cleaner that finds similar photos, screenshots, and blurry images. Reclaim gigabytes of storage instantly.</p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">10M+</div>
-                            <div class="stat-label">Downloads</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">4.8</div>
-                            <div class="stat-label">App Rating</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">50GB+</div>
-                            <div class="stat-label">Space Cleared Daily</div>
-                        </div>
-                    </div>
                     <div class="hero-buttons">
                         <a href="#download" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -1038,23 +1034,23 @@
             </div>
             <div class="screenshots-grid">
                 <div class="screenshot-card">
-                    <img src="images/ios_1.png" alt="CleanPhoto Home Screen">
+                    <img src="images/ios_1.png" alt="CleanPhoto Home Screen" loading="lazy" decoding="async">
                     <div class="screenshot-overlay"></div>
                 </div>
                 <div class="screenshot-card">
-                    <img src="images/ios_2.png" alt="Photo Analysis">
+                    <img src="images/ios_2.png" alt="Photo Analysis" loading="lazy" decoding="async">
                     <div class="screenshot-overlay"></div>
                 </div>
                 <div class="screenshot-card">
-                    <img src="images/ios_3.png" alt="Similar Photos Detection">
+                    <img src="images/ios_3.png" alt="Similar Photos Detection" loading="lazy" decoding="async">
                     <div class="screenshot-overlay"></div>
                 </div>
                 <div class="screenshot-card">
-                    <img src="images/ios_4.png" alt="Screenshot Management">
+                    <img src="images/ios_4.png" alt="Screenshot Management" loading="lazy" decoding="async">
                     <div class="screenshot-overlay"></div>
                 </div>
                 <div class="screenshot-card">
-                    <img src="images/ios_5.png" alt="Storage Cleanup">
+                    <img src="images/ios_5.png" alt="Storage Cleanup" loading="lazy" decoding="async">
                     <div class="screenshot-overlay"></div>
                 </div>
             </div>
